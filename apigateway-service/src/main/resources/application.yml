@@ -1,10 +1,8 @@
 server:
   port: 8000
-  address: 192.168.35.37
 eureka:
   instance:
-    prefer-ip-address: true
-    instance-id: ${server.address}:${server.port}
+    hostname: localhost
   client:
     register-with-eureka: true
     fetch-registry: true
@@ -17,6 +15,10 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates: # 조건절이라 생각하면 된다.
+            - Path=/user-service/**
         - id: first-service
           uri: lb://MY-FIRST-SERVICE
           predicates:
