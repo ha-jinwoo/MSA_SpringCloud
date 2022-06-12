@@ -19,7 +19,17 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.authorizeRequests().antMatchers("/users/**").permitAll();
+        //http.authorizeRequests().antMatchers("/users/**").permitAll();
+        http.authorizeRequests().antMatchers("/**")
+                .hasIpAddress("192.168.35.37")
+                .and()
+                .addFilter(getAuthenticationFilter());
         http.headers().frameOptions().disable();    // 이거 안하면 h2-console 접근 못함
+    }
+
+    private AuthenticationFilter getAuthenticationFilter() throws Exception {
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter();
+        authenticationFilter.setAuthenticationManager(authenticationManager());
+        return authenticationFilter;
     }
 }
