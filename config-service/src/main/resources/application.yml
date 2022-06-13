@@ -8,4 +8,6 @@ spring:
     config:
       server:
         git:
-          uri: C:\Users\PC\Desktop\spring-cloud-config-repo
+          uri: https://github.com/ha-jinwoo/spring-cloud-config
+          #          username:  # private 인 경우
+          #          password:  # private 인 경우
