@@ -9,38 +9,39 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
-@Component
 @Slf4j
+@Component
 public class GlobalFilter extends AbstractGatewayFilterFactory<GlobalFilter.Config> {
 
-    public GlobalFilter(){
+    public GlobalFilter() {
         super(Config.class);
     }
 
     @Override
     public GatewayFilter apply(Config config) {
-        // Custom Pre filter
+        // custom pre filter
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
             ServerHttpResponse response = exchange.getResponse();
 
-            log.info("Global Filter baseMessage: request id -> {}",config.getBaseMessage());
+            log.info("Global Filter baseMessage : {}", config.getBaseMessage());
 
-            if(config.isPreLogger()){
-                log.info("Global Filter Start: request id -> {}",request.getId());
+            if (config.isPreLogger()) {
+                log.info("Global Filter Start: request id -> {}", request.getId());
             }
 
-            //Custom Post filter
-            return chain.filter(exchange).then(Mono.fromRunnable(()-> {
-                if(config.isPostLogger()){
-                    log.info("Global Filter End: response id -> {}",response.getStatusCode());
+            // custom post filter
+            return chain.filter(exchange).then(Mono.fromRunnable(() -> {
+                if (config.isPostLogger()) {
+                    log.info("Global Post End: response code -> {}", response.getStatusCode());
                 }
             }));
         };
     }
 
     @Data
-    public static class Config{
+    public static class Config {
+        // put the configuration properties
         private String baseMessage;
         private boolean preLogger;
         private boolean postLogger;
