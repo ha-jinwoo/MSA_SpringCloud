@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: config-service
+  profiles:
+    active: native
   rabbitmq:
     host: 127.0.0.1
     port: 5672
@@ -12,6 +14,8 @@ spring:
   cloud:
     config:
       server:
+        native :
+          search-locations: C:\Users\PC\Desktop\native-file-repo
         git:
           uri: https://github.com/ha-jinwoo/spring-cloud-config
           #          username:  # private 인 경우
